@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package products;
+
+import "google/protobuf/empty.proto";
+
+// podemos definir o pacote que será gerado para as diferentes linguagens de programação
+option go_package = "protofiles/";
+option csharp_namespace = "Protofiles/";
+
+// definimos as mensagens que serão utilizadas para a comunicação entre os serviços
+message CreateProductRequest {
+    string name = 1;
+    float price = 2;
+}
+
+message GetProductRequest {
+    string productId = 1;
+}
+
+message Product {
+    string productId = 1;
+    string name = 2;
+    float price = 3;
+}
+
+message ListProductsRequest { }
+  
+message ListProductsResponse {
+    repeated Product products = 1;
+}
+
+// definimos a interface de comunicação entre os serviços
+service ProductService {
+    rpc CreateProduct(CreateProductRequest) returns (Product);
+    rpc GetProduct(GetProductRequest) returns (Product);
+    rpc ListProducts(google.protobuf.Empty) returns (ListProductsResponse);
+}
